@@ -56,3 +56,12 @@ jobs:
             target/pit-reports/
             target/site/jacoco/
           if-no-files-found: ignore
+
+      - name: Upload JUnit results
+        # One artifact per job holding only the Surefire XML, for Quality Intelligence (junit-<job>)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: junit-${{ matrix.suite }}
+          path: target/surefire-reports/*.xml
+          if-no-files-found: warn
